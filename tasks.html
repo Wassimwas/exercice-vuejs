@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/main.css" />
+    <title> Liste de tâches </title>
+  </head>
+  <body>
+    <div id="simos-app" class="container">
+        <h1> Gestion des tâches avec Vue.js </h1>       
+      <form action="">
+        <input type="text" placeholder=" Saisir le texte " v-model="taskText" />
+        <button @click.prevent="addTask" :disabled="!taskText" >Ajouter une tâche </button>
+        <button class="delete-all" @click="deleteAllTask" v-if="tasks.length > 1"> Tout supprimer </button>
+      </form>     
+      <div class="tasks-list" v-for="(task,index) in tasks">
+        <div class="task-box" @click="task.done = !task.done" :style="{ 'text-decoration': task.done ? 'line-through' : ''}" >{{ task.words }}</div>
+        <span class="delete" @click="deleteTask(index)"> Supprimer </span>
+      </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+    <script>
+      var app = new Vue({
+        el:"#simos-app",  
+        data: {
+            tasks: [],
+            taskText: ""
+        },
+        methods: {
+            addTask: function(){
+                this.tasks.push({ words: this.taskText, done : false});
+                this.taskText="";  
+            },
+            deleteTask: function(index){
+                this.tasks.splice(index, 1);
+            },
+            deleteAllTask: function(){
+                this.tasks=[];
+            }
+        }
+      });
+    </script>
+  </body>
+</html>
